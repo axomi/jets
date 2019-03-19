@@ -72,6 +72,14 @@ module Jets::Job::Dsl
       end
     end
 
+    def declare_sqs_queue_policy(props={})
+      props ||= {} # options.delete(:queue_policy_properties) can be nil
+      r = Jets::Resource::Sns::TopicPolicy.new(props)
+      with_fresh_properties do
+        resource(r.definition) # add associated resource immediately
+      end
+    end
+
     # Expands simple queue name to full arn. Example:
     #
     #   hello-queue
